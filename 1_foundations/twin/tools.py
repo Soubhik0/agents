@@ -3,7 +3,8 @@ import os
 import requests
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
+
+
 
 pushover_user = os.getenv("PUSHOVER_USER")
 pushover_token = os.getenv("PUSHOVER_TOKEN")
@@ -28,6 +29,7 @@ def record_user_details(email, name="Name not provided", notes="not provided"):
 
 
 def record_unknown_question(question):
+    print("calling unknown question")
     push(f"Recording {question} asked that I couldn't answer")
     return "OK"
 
@@ -79,6 +81,7 @@ def handle_tool_calls(tool_calls):
     for tool_call in tool_calls:
         tool_name = tool_call.function.name
         arguments = json.loads(tool_call.function.arguments)
+        print(f"arguments ={arguments}")
         print(f"Tool called: {tool_name}", flush=True)
         tool = tool_map.get(tool_name)
         result = tool(**arguments) if tool else "Unknown tool: " + tool_name
